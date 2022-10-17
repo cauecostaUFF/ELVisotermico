@@ -115,7 +115,7 @@ with main_col3:
         "Escolha o gráfico:",
         ('Pxy', 'x,y', 'Delta G'))
 
-text_col1, text_col2, text_col3= st.columns([8,10, 6])
+text_col1, text_col2, text_col3= st.columns([9,9, 6])
 with text_col3:
     st.write("Pressões de saturação:")
 if sist != -1:
@@ -167,23 +167,23 @@ if sist != -1:
 
 
 
-    par_col1,par_col2,psat_col1,psat_col3,extra= st.columns([5,5,12,4,3])
+    par_col1,par_col2,psat_col1,psat_col3,extra= st.columns([5,6,11,4,3])
     with par_col1:
         if option == 0:
-            st.latex(r"\beta = "+str(f'{dataset.param2suf[0]:.4f}'))
+            st.latex(r"\beta = "+str(f'{dataset.param2suf[0]:.3f}'))
         elif option == 1:
-            st.latex(r"\alpha = " + str(f'{dataset.param3suf[0]:.4f}'))
-            st.latex(r"\beta = " + str(f'{dataset.param3suf[1]:.4f}'))
+            st.latex(r"\alpha = " + str(f'{dataset.param3suf[0]:.3f}'))
+            st.latex(r"\beta = " + str(f'{dataset.param3suf[1]:.3f}'))
         elif option == 2:
-            st.latex(r"\alpha = " + str(f'{dataset.paramNRTL[0]:.4f}'))
+            st.latex(r"\alpha = " + str(f'{dataset.paramNRTL[0]:.2f}'))
     with psat_col1:
         st.write("Componente A: "+dataset.compA)
         st.write("Componente B: " + dataset.compB)
         st.write("Temperatura (em K): " + str(dataset.T))
     if option == 2:
         with par_col2:
-            st.latex(r"\tau_{A,B}= " + str(f'{dataset.paramNRTL[1]:.4f}'))
-            st.latex(r"\tau_{B,A}= " + str(f'{dataset.paramNRTL[2]:.4f}'))
+            st.latex(r"\tau_{A,B}= " + str(f'{dataset.paramNRTL[1]:.3f}'))
+            st.latex(r"\tau_{B,A}= " + str(f'{dataset.paramNRTL[2]:.3f}'))
     with psat_col3:
         st.latex(r"P^{sat}_A = "+str(f'{dataset.Psat[0]:.2f}')+"\ kPa")
         st.latex(r"P^{sat}_B = " + str(f'{dataset.Psat[1]:.2f}') + "\ kPa")
@@ -253,6 +253,7 @@ if Graph == 'Pxy':
     if sist!=-1:
         lexpx = ax.plot(dataset.xexp,dataset.Pexp,'ok',ms=4)
         lexpy = ax.plot(dataset.yexp, dataset.Pexp, 'ok', ms=4)
+        plt.legend(lexpx,["Dados experimentais"])
 
     xmin,xmax,ymin,ymax = ax.axis()
     ax.axis([0,1, ymin,ymax])

@@ -1,4 +1,7 @@
-sist = "Sistema methanol e 2-methyl-1-propanol a 323.15K"
+sist = "Sistema metanol e 2-metil-1-propanol a 323.15K"
+compA = "metanol"
+compB = "2-metil-1-propanol"
+T = 323.15
 Pexp = [7.4661,13.7322,19.6117,25.0113,30.4375,35.1038,39.7834,43.9964,48.476,52.3024,56.262,]
 xexp = [0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,]
 yexp = [0,0.508,0.693,0.786,0.849,0.889,0.921,0.945,0.966,0.984,1,]

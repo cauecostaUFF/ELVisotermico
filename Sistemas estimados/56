@@ -1,4 +1,7 @@
-sist = "Sistema tetrachlromethane e acetic acid a 293.15K"
+sist = "Sistema tetraclorometano e ácido acético a 293.15K"
+compA = "tetraclorometano"
+compB = "ácido acético"
+T = 293.15
 Pexp = [1.5732,5.9728,8.1727,10.1592,10.6125,11.0924,11.4124,11.6257,11.839,11.9457,12.1323,]
 xexp = [0,0.12,0.225,0.427,0.491,0.592,0.689,0.776,0.888,0.974,1,]
 yexp = [0,0.634,0.782,0.851,0.866,0.886,0.906,0.924,0.958,0.988,1,]

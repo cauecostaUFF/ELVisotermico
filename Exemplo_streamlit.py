@@ -115,9 +115,12 @@ with main_col3:
         "Escolha o gráfico:",
         ('Pxy', 'x,y', 'Delta G'))
 
-text_col1, extra, text_col2= st.columns([8,10, 6])
-with text_col2:
+text_col1, text_col2, text_col3= st.columns([8,10, 6])
+with text_col3:
     st.write("Pressões de saturação:")
+if sist != -1:
+    with text_col2:
+        st.write("Sistema:")
 with text_col1:
     st.write("Parâmetros do modelo:")
 
@@ -135,29 +138,6 @@ def nrtl(alpha, tau, x):
         gamma[i] = np.sum(tau[:, i] * G[:, i] * x) / np.sum(G[:, i] * x) + summ
 
     return np.exp(gamma)
-
-def Calcularobj(obj):
-    x = np.linspace(1e-8,1-1e-8,101)
-    if option == 0:
-        beta = obj.param2suf[0]
-        gamma = np.array([np.exp(beta*(1-x)**2), np.exp(beta*x**2)])
-    elif option == 1:
-        alpha = obj.param3suf[0]
-        beta = obj.param3suf[1]
-        gamma = np.array([np.exp((alpha + 2 * (beta - alpha) * x) * (1 - x) ** 2),
-                          np.exp((beta + 2 * (alpha - beta) * (1 - x)) * x ** 2)])
-    elif option == 2:
-        alpha = obj.paramNRTL[0]
-        tau = np.array([[0, obj.paramNRTL[1]],[obj.paramNRTL[2],0]])
-        gamma = np.array([np.zeros_like(x), np.zeros_like(x)])
-        for i in range(0, len(x)):
-            xp = np.array([x[i], 1 - x[i]])
-            gamma[:, i] = nrtl(alpha, tau, xp)
-    P = x*gamma[0]*obj.Psat[0] + (1-x)*gamma[1]*obj.Psat[1]
-    y = x*gamma[0]*obj.Psat[0]/P
-
-    G = x * np.log(x) + (1 - x) * np.log(1 - x) + x*np.log(gamma[0]) + (1-x)*np.log(gamma[1])
-    return x,y,P,G
 
 def Calcular(param,Psat = np.array([100,50])):
     x = np.linspace(1e-8,1-1e-8,101)
@@ -180,7 +160,6 @@ def Calcular(param,Psat = np.array([100,50])):
     y = x*gamma[0]*Psat[0]/P
 
     G = x * np.log(x) + (1 - x) * np.log(1 - x) + x*np.log(gamma[0]) + (1-x)*np.log(gamma[1])
-    # G = x * np.log(x) + (1 - x) * np.log(1 - x) + beta*x*(1 - x)
     return x,y,P,G
 
 if sist != -1:
@@ -188,26 +167,33 @@ if sist != -1:
 
 
 
-    par_col1,par_col2,psat_col1,psat_col2,psat_col3,extra= st.columns([5,5,2,10,4,3])
+    par_col1,par_col2,psat_col1,psat_col3,extra= st.columns([5,5,12,4,3])
     with par_col1:
         if option == 0:
-            st.latex(r"\beta = "+str(dataset.param2suf[0]))
+            st.latex(r"\beta = "+str(f'{dataset.param2suf[0]:.4f}'))
         elif option == 1:
-            st.latex(r"\alpha = " + str(dataset.param3suf[0]))
-            st.latex(r"\beta = " + str(dataset.param3suf[1]))
+            st.latex(r"\alpha = " + str(f'{dataset.param3suf[0]:.4f}'))
+            st.latex(r"\beta = " + str(f'{dataset.param3suf[1]:.4f}'))
         elif option == 2:
-            st.latex(r"\alpha = " + str(dataset.paramNRTL[0]))
-
+            st.latex(r"\alpha = " + str(f'{dataset.paramNRTL[0]:.4f}'))
+    with psat_col1:
+        st.write("Componente A: "+dataset.compA)
+        st.write("Componente B: " + dataset.compB)
+        st.write("Temperatura (em K): " + str(dataset.T))
     if option == 2:
         with par_col2:
-            st.latex(r"\tau_{A,B}= " + str(dataset.paramNRTL[1]))
-            st.latex(r"\tau_{B,A}= " + str(dataset.paramNRTL[2]))
+            st.latex(r"\tau_{A,B}= " + str(f'{dataset.paramNRTL[1]:.4f}'))
+            st.latex(r"\tau_{B,A}= " + str(f'{dataset.paramNRTL[2]:.4f}'))
     with psat_col3:
-        st.latex(r"P^{sat}_A = "+str(dataset.Psat[0])+"\ kPa")
-        st.latex(r"P^{sat}_B = " + str(dataset.Psat[1]) + "\ kPa")
-
-
-    x,y,P,G = Calcularobj(dataset)
+        st.latex(r"P^{sat}_A = "+str(f'{dataset.Psat[0]:.2f}')+"\ kPa")
+        st.latex(r"P^{sat}_B = " + str(f'{dataset.Psat[1]:.2f}') + "\ kPa")
+    if option==0:
+        param = dataset.param2suf
+    elif option == 1:
+        param = dataset.param3suf
+    elif option == 2:
+        param = dataset.paramNRTL
+    x,y,P,G = Calcular(param,dataset.Psat)
 else:
     valores = [0.2, 1, 2.7,0.8,2.45, 1.15, 2, 1.]
     extra, col4, col5,  col6,col7 ,col1, col2, col3= st.columns(valores)
@@ -258,8 +244,6 @@ ylabel = "P (kPa)"
 
 
 fig, ax = plt.subplots()
-# plt.gca()
-# plt.figtext(0.68,0.90, "Modelo de Margules: ", va="top", ha="left")
 
 plt.subplots_adjust(top=0.75,bottom=0.25,left=0.15)
 if Graph == 'Pxy':

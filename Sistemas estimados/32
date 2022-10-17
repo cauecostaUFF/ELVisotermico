@@ -1,4 +1,7 @@
-sist = "Sistema hexafluorobenzene e methanol a 288.15K"
+sist = "Sistema hexafluorobenzeno e metanol a 288.15K"
+compA = "hexafluorobenzeno"
+compB = "metanol"
+T = 288.15
 Pexp = [9.9592,13.3056,14.2788,14.5321,14.5588,14.5721,14.5588,14.4655,14.2655,13.8255,7.2661,]
 xexp = [0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,]
 yexp = [0,0.307,0.38,0.408,0.427,0.445,0.455,0.463,0.475,0.495,1,]

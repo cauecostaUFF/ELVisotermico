@@ -1,4 +1,7 @@
-sist = "Sistema ethylbenzene e nitrobenzene a 373.15K"
+sist = "Sistema etilbenzeno e nitrobenzeno a 373.15K"
+compA = "etilbenzeno"
+compB = "nitrobenzeno"
+T = 373.15
 Pexp = [2.8371,6.1795,12.4363,19.1758,24.066,26.2805,31.3841,33.6546,]
 xexp = [0,0.0694,0.2216,0.4267,0.6053,0.6933,0.906,1,]
 yexp = [0,0.5712,0.816,0.9053,0.9427,0.9567,0.9863,1,]

@@ -1,4 +1,7 @@
-sist = "Sistema diethyl ether e methyl iodide a 308.15K"
+sist = "Sistema dietil éter e iodeto de metila a 308.15K"
+compA = "dietil éter"
+compB = "iodeto de metila"
+T = 308.15
 Pexp = [78.4069,86.8195,92.0324,95.4721,97.8719,99.5651,100.7651,101.5516,102.2982,102.8582,103.3915,]
 xexp = [0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,]
 yexp = [0,0.1796,0.2954,0.385,0.465,0.5438,0.6261,0.7143,0.8085,0.9054,1,]

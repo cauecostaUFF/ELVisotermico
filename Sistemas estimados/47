@@ -1,4 +1,7 @@
-sist = "Sistema bromobenzene e cyclohexanol a 383.15K"
+sist = "Sistema bromobenzeno e ciclohexanol a 383.15K"
+compA = "bromobenzeno"
+compB = "ciclohexanol"
+T = 383.15
 Pexp = [16.732,19.2518,22.0782,24.3047,25.5179,26.8378,27.1711,27.6244,27.7844,27.3577,26.5445,]
 xexp = [0,0.072,0.185,0.308,0.398,0.53,0.599,0.67,0.815,0.925,1,]
 yexp = [0,0.197,0.367,0.501,0.568,0.644,0.681,0.724,0.811,0.902,1,]

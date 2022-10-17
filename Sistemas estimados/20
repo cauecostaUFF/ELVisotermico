@@ -1,4 +1,7 @@
-sist = "Sistema toluene e nitrobenzene a 373.15K"
+sist = "Sistema tolueno e nitrobenzeno a 373.15K"
+compA = "tolueno"
+compB = "nitrobenzeno"
+T = 373.15
 Pexp = [2.8371,10.7911,21.8995,39.3501,54.7982,60.8617,65.4279,74.7499,]
 xexp = [0,0.0777,0.2128,0.4417,0.6832,0.7869,0.8575,1,]
 yexp = [0,0.7522,0.8915,0.9549,0.9784,0.9853,0.9902,1,]

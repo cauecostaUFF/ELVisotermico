@@ -11,3 +11,5 @@ venv
 build
 .idea
 dist
+Procfile
+setup.sh

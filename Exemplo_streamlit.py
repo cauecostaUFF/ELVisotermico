@@ -12,7 +12,7 @@ class Dataset:
 
 
 # Definindo os sistemas
-sistemas ={-1:r"Ajuste de parâmetros",
+sistemas ={-1:r"Manipulação de parâmetros",
 0:r"Sistema etilbenzeno e heptano a 327.76K",
 1:r"Sistema 1-hepteno e tolueno a 328.15K",
 2:r"Sistema heptano e p-xileno a 313.11K",

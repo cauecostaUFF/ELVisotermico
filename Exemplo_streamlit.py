@@ -3,13 +3,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
+
 class Dataset:
     def __init__(self,info):
         with open('Sistemas estimados/' +str(info) ,"r") as arq:
             cont = arq.readlines()
             for i in range(0 ,len(cont)):
                 exec('self. ' +cont[i])
-
 
 # Definindo os sistemas
 sistemas ={-1:r"Manipulação de parâmetros",
@@ -75,6 +75,19 @@ sistemas ={-1:r"Manipulação de parâmetros",
 def format_sistemas(option):
     return sistemas[option]
 
+# Definindo param:
+param = np.array([0.0,0.0,0.0])
+psat = np.array([100.0,50.0])
+if not "param2suf" in st.session_state:
+    st.session_state["param2suf"] = param
+    st.session_state["param3suf"] = param
+    st.session_state["paramNRTL"] = param
+    st.session_state["psat"] = psat
+    st.session_state["xexp"] = []
+    st.session_state["yexp"] = []
+    st.session_state["Pexp"] = []
+
+
 # Definindo modelos
 modelos = {0: r"Margules 2 sufixos",1: r"Margules 3 sufixos",2: r"NRTL"}
 def format_func(option):
@@ -101,7 +114,6 @@ with main_col1:
         label_visibility=st.session_state.visibility,
         disabled=False,
     )
-
 with main_col2:
     st.write(r"Selecione o sistema:")
     sist = st.selectbox(
@@ -165,8 +177,6 @@ def Calcular(param,Psat = np.array([100,50])):
 if sist != -1:
     dataset = Dataset(sist)
 
-
-
     par_col1,par_col2,psat_col1,psat_col3,extra= st.columns([5,6,11,4,3])
     with par_col1:
         if option == 0:
@@ -187,23 +197,39 @@ if sist != -1:
     with psat_col3:
         st.latex(r"P^{sat}_A = "+str(f'{dataset.Psat[0]:.2f}')+"\ kPa")
         st.latex(r"P^{sat}_B = " + str(f'{dataset.Psat[1]:.2f}') + "\ kPa")
+    st.session_state["param2suf"] = dataset.param2suf
+    st.session_state["param3suf"] = dataset.param3suf
+    st.session_state["paramNRTL"] = dataset.paramNRTL
     if option==0:
-        param = dataset.param2suf
+        param = st.session_state["param2suf"]
     elif option == 1:
-        param = dataset.param3suf
+        param = st.session_state["param3suf"]
     elif option == 2:
-        param = dataset.paramNRTL
-    x,y,P,G = Calcular(param,dataset.Psat)
+        param = st.session_state["paramNRTL"]
+    psat = dataset.Psat
+    st.session_state["psat"] = psat
+    st.session_state["xexp"] = dataset.xexp
+    st.session_state["yexp"] = dataset.yexp
+    st.session_state["Pexp"] = dataset.Pexp
+
+    x,y,P,G = Calcular(param,psat)
 else:
-    valores = [0.2, 1, 2.7,0.8,2.45, 1.15, 2, 1.]
+    valores = [0.2, 1, 2.7,0.8,2.45, 1.15, 2.3, 1.]
+    if option == 0:
+        param = st.session_state["param2suf"]
+    elif option == 1:
+        param = st.session_state["param3suf"]
+    elif option == 2:
+        param = st.session_state["paramNRTL"]
+    psat = st.session_state["psat"]
     extra, col4, col5,  col6,col7 ,col1, col2, col3= st.columns(valores)
     with col1:
         st.latex(r"P^{sat}_A = ")
         st.latex(r"P^{sat}_B = ")
 
     with col2:
-        PsatA = st.number_input("", 0, 1000, value=100, label_visibility=st.session_state.visibility)
-        PsatB = st.number_input("", 0, 1000, value=50, label_visibility=st.session_state.visibility)
+        PsatA = st.number_input("",step = 1.0, min_value = 0.0, max_value = 1000.0, value=psat[0], label_visibility=st.session_state.visibility)
+        PsatB = st.number_input("",step = 1.0, min_value = 0.0, max_value = 1000.0, value=psat[1], label_visibility=st.session_state.visibility)
 
     with col3:
         st.latex(r" kPa ")
@@ -212,15 +238,15 @@ else:
         with col4:
             st.latex(r"\beta=")
         with col5:
-            beta = st.number_input(r"\beta=", step=0.05, label_visibility=st.session_state.visibility)
+            beta = st.number_input(r"\beta=", step=0.05, value= param[0], label_visibility=st.session_state.visibility)
             param = np.array([beta])
     elif option == 1:
         with col4:
             st.latex(r"\alpha=")
             st.latex(r"\beta=")
         with col5:
-            alpha = st.number_input(r"\alpha=", step=0.05, label_visibility=st.session_state.visibility)
-            beta = st.number_input(r"\beta=", step=0.05, label_visibility=st.session_state.visibility)
+            alpha = st.number_input(r"\alpha=", step=0.05, value= param[0],label_visibility=st.session_state.visibility)
+            beta = st.number_input(r"\beta=", step=0.05, value= param[1], label_visibility=st.session_state.visibility)
             param = np.array([alpha, beta])
     elif option == 2:
         with col4:
@@ -230,11 +256,15 @@ else:
             st.latex(r"\tau_{B,A}=")
 
         with col5:
-            alpha = st.number_input(r"\alpha=", min_value=0.0, max_value=1.0, value=0.30, step=0.01,
+            if param[0]==0:
+                value = 0.3
+            else:
+                value = param[0]
+            alpha = st.number_input(r"\alpha=", min_value=0.0, max_value=1.0, value=value, step=0.01,
                                     label_visibility=st.session_state.visibility)
         with col7:
-            dg12 = st.number_input(r"dg12", step=0.05, label_visibility=st.session_state.visibility)
-            dg21 = st.number_input(r"dg21=", step=0.05, label_visibility=st.session_state.visibility)
+            dg12 = st.number_input(r"dg12", step=0.05, value= param[1], label_visibility=st.session_state.visibility)
+            dg21 = st.number_input(r"dg21=", step=0.05, value= param[2], label_visibility=st.session_state.visibility)
             param = np.array([alpha, dg12, dg21])
     x, y, P, G = Calcular(param, np.array([PsatA, PsatB]))
 
@@ -250,9 +280,14 @@ if Graph == 'Pxy':
     lz, = ax.plot([0, 1], [P[0], P[-1]], '--k', lw=1)
     lx, = ax.plot(x, P, lw=2)
     ly, = ax.plot(y, P, lw=2)
-    if sist!=-1:
-        lexpx = ax.plot(dataset.xexp,dataset.Pexp,'ok',ms=4)
-        lexpy = ax.plot(dataset.yexp, dataset.Pexp, 'ok', ms=4)
+    # if sist!=-1:
+    #     lexpx = ax.plot(dataset.xexp,dataset.Pexp,'ok',ms=4)
+    #     lexpy = ax.plot(dataset.yexp, dataset.Pexp, 'ok', ms=4)
+    #     plt.legend(lexpx,["Dados experimentais"])
+
+    lexpx = ax.plot(st.session_state["xexp"],st.session_state["Pexp"],'ok',ms=4)
+    lexpy = ax.plot(st.session_state["yexp"], st.session_state["Pexp"], 'ok', ms=4)
+    if st.session_state["yexp"]:
         plt.legend(lexpx,["Dados experimentais"])
 
     xmin,xmax,ymin,ymax = ax.axis()

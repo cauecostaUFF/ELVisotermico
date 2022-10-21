@@ -86,6 +86,7 @@ if not "param2suf" in st.session_state:
     st.session_state["xexp"] = []
     st.session_state["yexp"] = []
     st.session_state["Pexp"] = []
+    st.session_state["Sistema"] = []
 
 
 # Definindo modelos
@@ -122,6 +123,8 @@ with main_col2:
         label_visibility=st.session_state.visibility,
         disabled=False,
     )
+    if sist != -1:
+        st.session_state["Sistema"] = format_sistemas(sist)
 with main_col3:
     Graph = st.radio(
         "Escolha o gráfico:",
@@ -312,6 +315,8 @@ elif Graph == 'Delta G':
 
 plt.show()
 st.pyplot(plt)
+if st.session_state["Sistema"] and sist == -1:
+    st.write("Dados experimentais do "+st.session_state["Sistema"])
 col_end1,col_end2,col_end3 = st.columns(3)
 with col_end3:
     st.write("Desenvolvido por: Cauê Costa\nE-mail: cauecosta@id.uff.br")

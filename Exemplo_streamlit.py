@@ -280,10 +280,6 @@ if Graph == 'Pxy':
     lz, = ax.plot([0, 1], [P[0], P[-1]], '--k', lw=1)
     lx, = ax.plot(x, P, lw=2)
     ly, = ax.plot(y, P, lw=2)
-    # if sist!=-1:
-    #     lexpx = ax.plot(dataset.xexp,dataset.Pexp,'ok',ms=4)
-    #     lexpy = ax.plot(dataset.yexp, dataset.Pexp, 'ok', ms=4)
-    #     plt.legend(lexpx,["Dados experimentais"])
 
     lexpx = ax.plot(st.session_state["xexp"],st.session_state["Pexp"],'ok',ms=4)
     lexpy = ax.plot(st.session_state["yexp"], st.session_state["Pexp"], 'ok', ms=4)
@@ -298,8 +294,10 @@ if Graph == 'Pxy':
 elif Graph == 'x,y':
     lz, = ax.plot([0, 1], [0, 1], '--k', lw=1)
     lx, = ax.plot(x, y, lw=2)
-    if sist != -1:
-        lexpx = ax.plot(dataset.xexp, dataset.yexp, 'ok', ms=4)
+    lexpx = ax.plot(st.session_state["xexp"], st.session_state["yexp"], 'ok', ms=4)
+    if st.session_state["yexp"]:
+        plt.legend(lexpx, ["Dados experimentais"])
+
     xmin, xmax, ymin, ymax = ax.axis()
     ax.axis([0, 1, ymin, ymax])
     ax.set_xlabel("x$_A$", fontsize=12)

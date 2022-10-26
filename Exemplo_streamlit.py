@@ -317,7 +317,8 @@ plt.show()
 st.pyplot(plt)
 if st.session_state["Sistema"] and sist == -1:
     texto = st.session_state["Sistema"]
-    st.write("Dados experimentais do "+ texto.lower())
+    texto = texto[0:-2]
+    st.write("Dados experimentais do "+ texto.lower()+" K")
 col_end1,col_end2,col_end3 = st.columns(3)
 with col_end3:
     st.write("Desenvolvido por: Cauê Costa\nE-mail: cauecosta@id.uff.br")

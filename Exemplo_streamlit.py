@@ -316,7 +316,8 @@ elif Graph == 'Delta G':
 plt.show()
 st.pyplot(plt)
 if st.session_state["Sistema"] and sist == -1:
-    st.write("Dados experimentais do "+st.session_state["Sistema"])
+    texto = st.session_state["Sistema"]
+    st.write("Dados experimentais do "+ texto.lower())
 col_end1,col_end2,col_end3 = st.columns(3)
 with col_end3:
     st.write("Desenvolvido por: Cauê Costa\nE-mail: cauecosta@id.uff.br")

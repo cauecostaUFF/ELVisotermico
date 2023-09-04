@@ -319,10 +319,10 @@ if st.session_state["Sistema"] and sist == -1:
     texto = st.session_state["Sistema"]
     texto = texto[0:-1]
     st.write("Dados experimentais do "+ texto.lower()+" K")
-col_end1,col_end2,col_end3 = st.columns(3)
-with col_end3:
-    st.write("Desenvolvido por: Cauê Costa\nE-mail: cauecosta@id.uff.br")
-with col_end2:
-    st.image("UFF.png", width=150)
-with col_end1:
-    st.image("molmod.png", width=150)
+# col_end1,col_end2,col_end3 = st.columns(3)
+# with col_end3:
+#     st.write("Desenvolvido por: Cauê Costa\nE-mail: cauecosta@id.uff.br")
+# with col_end2:
+#     st.image("UFF.png", width=150)
+# with col_end1:
+#     st.image("molmod.png", width=150)

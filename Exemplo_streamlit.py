@@ -313,6 +313,7 @@ elif Graph == 'Delta G':
     ax.set_xlabel("x$_A$", fontsize=12)
     ax.set_ylabel(r"$\frac{\Delta_{mist} G}{RT}$", fontsize=16)
 
+plt.grid()
 plt.show()
 st.pyplot(plt)
 if st.session_state["Sistema"] and sist == -1:
